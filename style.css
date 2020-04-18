@@ -1,0 +1,95 @@
+body {
+   background-color: #ffe4c4;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   font-size: 16px;
+}
+
+.top {
+   width: 400px;
+   margin: 200px auto;
+}
+
+#alert {
+   padding: 20px;
+   text-align: center;
+   height: 16px;
+   color: coral;
+}
+
+.wrapper {
+   background-color: white;
+   width: 400px;
+   height: 300px;
+   margin: 0 auto;
+   border: 1px solid #ccb191;
+   border-radius: 10px;
+   border-top-left-radius: 0;
+   padding: 20px 20px 20px 20px;
+}
+
+fieldset {
+   border: none;
+   max-width: fit-content;
+   margin: auto;
+}
+
+#register {
+   display: none;
+}
+
+#password-reminder {
+   display: none;
+}
+
+.topLabel {
+   display: inline-block;
+   border: 1px solid #ccb191;
+   border-bottom: none;
+   padding: 5px 15px;
+   cursor: pointer;
+   position: relative;
+   top: 2px;
+   font-size: 14px;
+   color: #b47f3d;
+   font-weight: 900;
+}
+
+.loginLabel {
+   background-color: white;
+   border-top-left-radius: 10px;
+   border-right: none;
+}
+
+.registerLabel {
+   background-color: #ffe4c4;
+   border-top-right-radius: 10px;
+   border-left: none;
+}
+
+#lost-password {
+   color: #b47f3d;
+   display: inline-block;
+   cursor: pointer;
+   margin-top: 20px;
+}
+
+input {
+   padding: 5px 15px;
+   background-color: white;
+   border: 1px solid #ccb191;
+   border-radius: 10px;
+   font-size: 16px;
+   margin-top: 10px;
+   color: #b47f3d;
+}
+
+input[type=submit] {
+   padding: 5px 15px;
+   background-color: #ffe4c4;
+   border: 1px solid #ccb191;
+   border-radius: 10px;
+   font-size: 16px;
+   margin-top: 10px;
+   color: #b47f3d;
+}
+
