@@ -36,7 +36,7 @@
          if($pass1 == $pass2) {
             return true;
          } else {
-            $this->result = 'Hasła muszą być jednakowe<br><a href=\"reset-password.php?id='. $this->id .'\">Spróbuj jeszcze raz</a>';
+            $this->result = 'Hasła muszą być jednakowe<br><a href=\"reset-password.php?id='. $this->id .'\">Powrót</a>';
          }
 
       }
@@ -53,10 +53,10 @@
             if($row['id'] == $this->id && $row['email'] == $this->email) {
                return true;
             } else {
-               $this->result = 'Dane, które wprowadziłeś są nieprawidłowe<br><a href=\"reset-password.php?id='. $this->id .'\">Spróbuj jeszcze raz</a>';
+               $this->result = 'Dane, które wprowadziłeś są nieprawidłowe<br><a href=\"reset-password.php?id='. $this->id .'\">Powrót</a>';
             }
          } else {
-            $this->result = 'Użytkownik o takim identyfikatorze nie istnieje<br><a href=\"reset-password.php?id='. $this->id .'\">Spróbuj jeszcze raz</a>';
+            $this->result = 'Użytkownik o takim identyfikatorze nie istnieje<br><a href=\"reset-password.php?id='. $this->id .'\">Powrót</a>';
          }
 
       }
