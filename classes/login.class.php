@@ -4,6 +4,7 @@ class Login {
 
    private $login;
    private $password;
+   private $time;
    public $result;
 
    public function __construct($data) {
@@ -15,16 +16,20 @@ class Login {
 
    public function grantAccess() {
 
-      global $link;
+      global $mysqli;
 
-      $query = mysqli_query($link, "SELECT * from users WHERE email='$this->login'");
-      $result = mysqli_fetch_array($query);
-      $userExist = mysqli_num_rows($query);
+      $result = $mysqli->query("SELECT * from users WHERE email='$this->login'");
+      $row = $result->fetch_array(MYSQLI_ASSOC);
+      $userExist = $result->num_rows;
 
       if($userExist > 0) {
-         if($this->password == $result['password']) {
+         if($this->password == $row['password']) {
             $_SESSION['logged'] = 1;
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
+            $this->time  = date("d.m.Y H:i:s");
             $this->result = "Pomyślnie zalogowano";
+            $mysqli->query("UPDATE users SET last_login='$this->time' WHERE id='$row[id]'");
          } else {
             $this->result = "Nieprawidłowe hasło";
          }

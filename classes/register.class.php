@@ -8,6 +8,8 @@ class Register {
    private $time;
    public $result;
 
+   private $emailSubject;
+   private $emailContent;
 
    public function __construct($data) {
 
@@ -19,15 +21,16 @@ class Register {
 
    public function createUser() {
 
-      global $link;
+      global $mysqli;
 
       if($this->checkPasswords($this->password, $this->password2) && $this->isUsrnmFree($this->login)) {
          
          $this->time  = date("d.m.Y H:i:s");
 
-         $query = "INSERT INTO users VALUES ('', '$this->login', '$this->password', '$this->time')";
-         $go = mysqli_query($link, $query);
+         $mysqli->query("INSERT INTO users VALUES ('', '$this->login', '$this->password', '$this->time', '')");
+         $id = $mysqli->insert_id;
          $this->result = 'Pomyślnie zarejestrowano użytkownika';
+         $this->sendEmail($this->login, $id);
 
       }
 
@@ -45,16 +48,25 @@ class Register {
 
    private function isUsrnmFree($username) {
 
-      global $link;
+      global $mysqli;
 
-      $query = mysqli_query($link, "SELECT * from users WHERE email='$username'");
-      $userExist = mysqli_num_rows($query);
+      $result = $mysqli->query("SELECT * from users WHERE email='$username'");
+      $row = $result->fetch_array(MYSQLI_ASSOC);
+      $userExist = $result->num_rows;
 
       if($userExist == 0) {
          return true;
       } else {
          $this->result = 'Ten adres email już istnieje w naszej bazie danych';
       }
+
+   }
+
+   private function sendEmail($email, $id) {
+
+      $this->emailSubject = 'Potwierdź swoją rejestrację w serwisie'; // Esytuj tę linijkę dostosowując ją do swoich potrzeb
+      $this->emailContent = 'Kliknij w poniższy link aby potwierdzić swoją rejestrację w serwisie' . "\r\n" . 'http://localhost:3000/confirm.php?id='.$id; // Esytuj tę linijkę dostosowując ją do swoich potrzeb
+      mail($email, $this->emailSubject, $this->emailContent, 'From: Mój serwis <biuro@motolux.cba.pl>' . "\r\n" . 'Content-Type: text/plain; charset=utf-8' . "\r\n"); // Esytuj tę linijkę dostosowując ją do swoich potrzeb
 
    }
 

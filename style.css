@@ -9,10 +9,15 @@ body {
    margin: 200px auto;
 }
 
-#alert {
+.alert {
    padding: 20px;
    text-align: center;
    height: 16px;
+   color: coral;
+}
+
+.alert a {
+   text-decoration: underline;
    color: coral;
 }
 

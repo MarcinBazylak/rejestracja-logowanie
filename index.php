@@ -2,8 +2,13 @@
 <head>
 <?php
 session_start();
-include 'includes/db.php';
+if ($_GET['logout'] == 1) {
+   unset($_SESSION['logged']);
+   unset($_SESSION['email']);
+   unset($_SESSION['user_id']);
+}
 
+include 'includes/db.php';
 include 'classes/login.class.php';
 include 'classes/register.class.php';
 include 'classes/password-reminder.class.php';
@@ -14,7 +19,7 @@ if($_POST['login-btn']) {
    echo '
    <script>
    window.onload = function(){
-   document.getElementById("alert").innerText = "'.$loginAttempt->result.'";
+   document.getElementById("alert").innerHTML = "'.$loginAttempt->result.'";
    };
    </script>';
 }
@@ -25,7 +30,7 @@ if($_POST['register-btn']) {
    echo '
    <script>
    window.onload = function(){
-   document.getElementById("alert").innerText = "'.$register->result.'";
+   document.getElementById("alert").innerHTML = "'.$register->result.'";
    var labelLogin = document.getElementById("login-label");
    var labelRegister = document.getElementById("register-label");
    var fieldLogin = document.getElementById("login");
@@ -35,8 +40,18 @@ if($_POST['register-btn']) {
    labelLogin.style.backgroundColor = "#ffe4c4"
    labelRegister.style.backgroundColor = "white"
    };
-   </script>
-';
+   </script>';
+}
+
+if($_POST['password-btn']) {
+   $resetPassword = new PasswordReminder($_POST);
+   $resetPassword->sendEmail();
+   echo '
+   <script>
+   window.onload = function(){
+   document.getElementById("alert").innerHTML = "'.$resetPassword->result.'";
+   };
+   </script>';
 }
 ?>
    <meta charset="UTF-8">
@@ -45,37 +60,42 @@ if($_POST['register-btn']) {
    <title>Logowanie</title>
 </head>
 <body>
-
    <div class="top">
    <label id="login-label" class="topLabel loginLabel">Logowanie</label><label id="register-label" class="topLabel registerLabel">Rejestracja</label>
-      <div class="wrapper">
-      <div id="alert"></div>
+      <div class="wrapper">      
+      <?php 
+      if ($_SESSION['logged'] == 1) {
+         echo '<div class="alert">Jesteś zalogowany jako ' . $_SESSION['email'] . '<br><a href="index.php?logout=1">Wyloguj się</a></div>';
+      } else {
+         echo'   <div id="alert" class="alert"></div>
          <form action="index.php" method="post">
             <fieldset id="login">
-               <input type="email" name="username" placeholder="Adres email" maxlength="50" required><br>
-               <input type="password" name="password" placeholder="Hasło" maxlength="16" required><br>
+               <input type="email" name="username" placeholder="Adres email" maxlength="50" required autocomplete="username"><br>
+               <input type="password" name="password" placeholder="Hasło" maxlength="16" required autocomplete="current-password"><br>
                <input type="submit" name="login-btn" value="Zaloguj"><br>
                <label id="lost-password">Zapomniałem hasła :(</label>
             </fieldset>
          </form>
          <form action="index.php" method="post">
             <fieldset id="register">
-               <input type="email" name="username" id="username" placeholder="Adres email" maxlength="50" required value="<?php echo $_POST['username'] ?? ""  ?>"><br>
-               <input type="password" name="password" placeholder="Hasło" maxlength="16" required><br>
-               <input type="password" name="password2" placeholder="Powtórz Hasło" maxlength="16" required><br>
+               <input type="email" name="username" id="username" placeholder="Adres email" maxlength="50" required value="' . $_POST['username'] . '" autocomplete="username"><br>
+               <input type="password" name="password" placeholder="Hasło" maxlength="16" required autocomplete="new-password"><br>
+               <input type="password" name="password2" placeholder="Powtórz Hasło" maxlength="16" required autocomplete="new-password"><br>
                <input type="submit" name="register-btn" value="Zarejestruj"><br>
             </fieldset>
          </form>
          <form action="index.php" method="post">
             <fieldset id="password-reminder">
-               <input type="email" name="username" placeholder="Adres email" maxlength="50" required><br>
+               <input type="email" name="username" placeholder="Adres email" maxlength="50" required autocomplete="username"><br>
                <input type="submit" name="password-btn" value="Zresetuj hasło"><br>
             </fieldset>
-         </form>
+         </form>';
+      }
+      ?>
+
       </div>
    </div>
-
    <script src="js/script.js"></script>
-
 </body>
 </html>
+<?php $mysqli->close(); ?>
