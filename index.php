@@ -10,6 +10,7 @@ if ($_GET['logout'] == 1) {
 
 include 'includes/db.php';
 include 'classes/login.class.php';
+include 'classes/activate.class.php';
 include 'classes/register.class.php';
 include 'classes/password-reminder.class.php';
 
@@ -53,6 +54,20 @@ if($_POST['password-btn']) {
    };
    </script>';
 }
+
+if(!empty($_GET['verify_id'])) {
+
+$activate = new ActivateUser($_GET);
+$activate->activate();
+echo '
+<script>
+window.onload = function(){
+document.getElementById("alert").innerHTML = "'.$activate->result.'";
+};
+</script>';
+
+}
+
 ?>
    <meta charset="UTF-8">
    <link rel="stylesheet" href="style.css">

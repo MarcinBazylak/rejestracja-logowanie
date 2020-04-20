@@ -6,6 +6,7 @@ class Register {
    private $password;
    private $password2;
    private $time;
+   private $id;
    public $result;
 
    private $emailSubject;
@@ -27,16 +28,16 @@ class Register {
          
          $this->time  = date("d.m.Y H:i:s");
 
-         $mysqli->query("INSERT INTO users VALUES ('', '$this->login', '$this->password', '$this->time', '')");
-         $id = $mysqli->insert_id;
+         $mysqli->query("INSERT INTO users VALUES ('', '', '$this->login', '$this->password', '$this->time', '')");
+         $this->id = $mysqli->insert_id;
          $this->result = 'Pomyślnie zarejestrowano użytkownika';
-         $this->sendEmail($this->login, $id);
+         $this->sendEmail($this->login, $this->id);
 
       }
 
    }
 
-   private function checkPasswords($pass1, $pass2) {
+   private function checkPasswords($pass1, $pass2) { // sprawdzenie czy wpisane hasła sa jednakowe
 
       if ($pass1 == $pass2) {
          return true;
@@ -46,7 +47,7 @@ class Register {
 
    }
 
-   private function isUsrnmFree($username) {
+   private function isUsrnmFree($username) { // sprawdzenie czy wpisana nazwa użytkownika/adres email nie ejst zajęta
 
       global $mysqli;
 
@@ -62,10 +63,10 @@ class Register {
 
    }
 
-   private function sendEmail($email, $id) {
+   private function sendEmail($email, $id) { // wysłanie emaila z linkeim weryfikującym adres
 
       $this->emailSubject = 'Potwierdź swoją rejestrację w serwisie'; // Esytuj tę linijkę dostosowując ją do swoich potrzeb
-      $this->emailContent = 'Kliknij w poniższy link aby potwierdzić swoją rejestrację w serwisie' . "\r\n" . 'http://localhost:3000/confirm.php?id='.$id; // Esytuj tę linijkę dostosowując ją do swoich potrzeb
+      $this->emailContent = 'Kliknij w poniższy link aby potwierdzić swoją rejestrację w serwisie' . "\r\n" . 'http://localhost:3000/index.php?verify_id='.$id; // Esytuj tę linijkę dostosowując ją do swoich potrzeb
       mail($email, $this->emailSubject, $this->emailContent, 'From: Mój serwis <biuro@motolux.cba.pl>' . "\r\n" . 'Content-Type: text/plain; charset=utf-8' . "\r\n"); // Esytuj tę linijkę dostosowując ją do swoich potrzeb
 
    }

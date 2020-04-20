@@ -31,7 +31,7 @@
 
       }
 
-      private function checkPasswords($pass1, $pass2) {
+      private function checkPasswords($pass1, $pass2) { // sprawdzenie czy wpisane hasła są jednakowe
 
          if($pass1 == $pass2) {
             return true;
@@ -41,7 +41,7 @@
 
       }
 
-      private function checkEmailMatchId($id, $email) {
+      private function checkEmailMatchId($id, $email) { //sprawdzenie czy wpisany email zgadza się z user ID
 
          global $mysqli;
 
