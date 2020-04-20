@@ -1,5 +1,43 @@
-<html lang="pl">
-<head>
+<!--
+
+W katalogu głównym utwórz folder o nazwie 'includes', a w nim plik o nazwie 'db.php'
+W pliku umieść następujący wpis w celu połączenia z bazą mysql:
+
+
+$mysqli = new mysqli("server_address", "username", "password", "database");
+$mysqli->set_charset("utf8");
+
+--
+-- Struktura tabeli dla tabeli `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(4) NOT NULL,
+  `active` int(1) NOT NULL DEFAULT 0,
+  `email` varchar(50) COLLATE utf8_bin NOT NULL,
+  `password` varchar(50) COLLATE utf8_bin NOT NULL,
+  `created` date NOT NULL,
+  `last_login` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT dla tabeli `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+COMMIT;
+--
+-- koniec
+--
+
+-->
+
 <?php
 session_start();
 if ($_GET['logout'] == 1) {
@@ -69,6 +107,8 @@ document.getElementById("alert").innerHTML = "'.$activate->result.'";
 }
 
 ?>
+<html lang="pl">
+<head>
    <meta charset="UTF-8">
    <link rel="stylesheet" href="style.css">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
