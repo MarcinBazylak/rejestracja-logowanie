@@ -1,4 +1,5 @@
 <?php
+
 class PasswordReminder {
 
    private $email;
@@ -15,7 +16,6 @@ class PasswordReminder {
    private function emailExist () {
 
       global $mysqli;
-
       $result = $mysqli->query("SELECT * from users WHERE email='$this->email'");
       $row = $result->fetch_array(MYSQLI_ASSOC);
       $userExist = $result->num_rows;
@@ -39,11 +39,9 @@ class PasswordReminder {
          mail($this->email, $this->emailSubject, $this->emailContent, 'From: Mój serwis <biuro@motolux.cba.pl>' . "\r\n" . 'Content-Type: text/plain; charset=utf-8' . "\r\n"); // Esytuj tą linijkę dostosowując ją do swoich potrzeb
 
       } else {
-
          return $this->result;
-
       }
-
+      
    }
   
 }

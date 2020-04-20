@@ -2,9 +2,10 @@
 
 class ActivateUser {
 
+   public $result;
+   
    private $userId;
    private $row;
-   public $result;
 
    public function __construct($data) {
 
@@ -52,4 +53,5 @@ class ActivateUser {
    }
 
 }
+
 ?>

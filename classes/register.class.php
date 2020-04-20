@@ -2,13 +2,13 @@
 
 class Register {
 
+   public $result;
+   
    private $login;
    private $password;
    private $password2;
    private $time;
    private $id;
-   public $result;
-
    private $emailSubject;
    private $emailContent;
 
@@ -22,12 +22,11 @@ class Register {
 
    public function createUser() {
 
-      global $mysqli;
-
       if($this->checkPasswords($this->password, $this->password2) && $this->isUsrnmFree($this->login)) {
          
          $this->time  = date("d.m.Y H:i:s");
 
+         global $mysqli;
          $mysqli->query("INSERT INTO users VALUES ('', '', '$this->login', '$this->password', '$this->time', '')");
          $this->id = $mysqli->insert_id;
          $this->result = 'Pomyślnie zarejestrowano użytkownika';
@@ -50,7 +49,6 @@ class Register {
    private function isUsrnmFree($username) { // sprawdzenie czy wpisana nazwa użytkownika/adres email nie ejst zajęta
 
       global $mysqli;
-
       $result = $mysqli->query("SELECT * from users WHERE email='$username'");
       $row = $result->fetch_array(MYSQLI_ASSOC);
       $userExist = $result->num_rows;

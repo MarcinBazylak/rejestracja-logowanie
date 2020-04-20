@@ -21,6 +21,7 @@ if($_POST['reset']) {
 }
 
 ?>
+
 <html lang="pl">
 <head>
    <meta charset="UTF-8">
